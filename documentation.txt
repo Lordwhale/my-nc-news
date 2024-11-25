@@ -1,0 +1,9 @@
+
+Repo created 
+***********
+First push:
+
+    Environment setup test and development // memo to readme to create own env var- documentation
+    Finished setup, Created api.controller.js and created and tested function getApi.
+
+    
