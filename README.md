@@ -1,8 +1,11 @@
 # Northcoders News API
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
+    Before you can start, need to setup your own Dotenv environment files as they are not provided.  
+    Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.
+    Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology.
+    Read instructions about setting it up on: https://www.npmjs.com/package/dotenv
 
-
+    
 
 --- 
 
