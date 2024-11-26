@@ -1,7 +1,7 @@
 {
-  "name": "be-nc-news",
+  "name": "my-nc-news",
   "version": "1.0.0",
-  "description": "be-nc-news",
+  "description": "my-nc-news",
   "main": "index.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
