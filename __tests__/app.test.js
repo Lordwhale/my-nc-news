@@ -92,6 +92,7 @@ describe("GET /api/articles", () => {
         expect(articles).toBeSortedBy("created_at", { descending: true });
         expect(articles).toHaveLength(13);
         articles.forEach((article) => {
+          console.log(article)
           expect(article).toMatchObject({
             article_id: expect.any(Number),
             title: expect.any(String),
@@ -100,6 +101,7 @@ describe("GET /api/articles", () => {
             created_at: expect.any(String),
             votes: expect.any(Number),
             article_img_url: expect.any(String),
+            comment_count: expect.any(String)
           });
         });
       });
