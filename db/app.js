@@ -5,7 +5,7 @@ const { getTopics } = require("./controllers/topics.controller");
 const { getArticleComments } = require("./controllers/comments.controller");
 
 const {
-  getArticle,
+  getArticles,
   getArticleById,
 } = require("./controllers/articles.controller");
 
@@ -19,7 +19,7 @@ app.get("/api", getApi); // list all avail APIs
 
 app.get("/api/topics", getTopics); // get all topics
 
-app.get("/api/articles", getArticle); // get all articles, desc order, body removed
+app.get("/api/articles", getArticles); // get all articles, desc order, body removed
 
 app.get("/api/articles/:article_id", getArticleById); // get article by id
 

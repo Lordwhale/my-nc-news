@@ -4,7 +4,7 @@ const {
   selectArticle,
 } = require("../models/articles.model");
 
-exports.getArticle = (req, res) => {
+exports.getArticles = (req, res) => {
   selectArticle().then((articles) => {
     res.status(200).send({ articles });
   });
