@@ -1,10 +1,9 @@
 const endpointsJson = require("../endpoints.json");
 const request = require("supertest");
 const db = require("../db/connection");
-const app = require("../db/app")
+const app = require("../db/app");
 const data = require("../db/data/test-data");
-const seed = require("../db/seeds/seed")
-
+const seed = require("../db/seeds/seed");
 
 beforeEach(() => {
   return seed(data);
@@ -37,8 +36,47 @@ describe("GET /api/topics", () => {
           expect(topic).toMatchObject({
             slug: expect.any(String),
             description: expect.any(String),
+          });
         });
       });
   });
-  })
-})  
+});
+
+describe("GET/api/articles/:article_id", () => {
+  test("200: responds with an article object", () => {
+    const expectedArticle = {
+      article_id: expect.any(Number),
+      title: expect.any(String),
+      topic: expect.any(String),
+      author: expect.any(String),
+      body: expect.any(String),
+      created_at: expect.any(String),
+      votes: expect.any(Number),
+      article_img_url: expect.any(String),
+    };
+    return request(app)
+      .get("/api/articles/8")
+      .expect(200)
+      .then(({ body: { article } }) => {
+        expect(article).toEqual(expectedArticle);
+      });
+  });
+
+  test("404: responds with an error message if article id does not exist", () => {
+    return request(app)
+      .get("/api/articles/555")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("item not found");
+      });
+  });
+
+  test("400: responds with an error message if article id not valid", () => {
+    return request(app)
+      .get("/api/articles/not-an-id")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+});

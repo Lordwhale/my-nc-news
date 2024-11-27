@@ -4,12 +4,20 @@ Repo created
 First push:
 
     Environment setup test and development // memo to readme to create own env var- documentation
-    getApi on /api -- Finished setup, Created api.controller.js and created and tested function getApi.
+    getApi on /api -- 
+        Finished setup, Created api.controller.js and created and 
+        tested function getApi.
 
 Second push:
 
-    getTopics on /api/topics -- working, returning response object, tested for length, structure,
+    getTopics on /api/topics -- 
+        working, returning response object, 
+        tested for length, structure,
     
+Third push
 
-
-    
+    getArticlesById on /api/articles/:article_id -- 
+        working, returning valid response object, 
+        tested for structure, invalid input and out of range valid input.
+        
+    added error handler to app 
