@@ -2,7 +2,10 @@ const express = require("express");
 const app = express();
 const { getApi } = require("./controllers/api.controller");
 const { getTopics } = require("./controllers/topics.controller");
-const { getArticleComments } = require("./controllers/comments.controller");
+const {
+  getArticleComments,
+  postComment,
+} = require("./controllers/comments.controller");
 
 const {
   getArticles,
@@ -15,6 +18,8 @@ const {
   serverErrorHandler,
 } = require("./errors/errors");
 
+app.use(express.json());
+
 app.get("/api", getApi); // list all avail APIs
 
 app.get("/api/topics", getTopics); // get all topics
@@ -24,6 +29,10 @@ app.get("/api/articles", getArticles); // get all articles, desc order, body rem
 app.get("/api/articles/:article_id", getArticleById); // get article by id
 
 app.get("/api/articles/:article_id/comments", getArticleComments); // get all comments for given article, newest first
+
+
+
+app.post("/api/articles/:article_id/comments", postComment); // post a comment for an article
 
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
