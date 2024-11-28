@@ -1,4 +1,4 @@
-const { request } = require("../app");
+const { request } = require("../../app");
 const { getCommentsByArticleId, postComment } = require("../models/comments.model")
 
 exports.getArticleComments = (req, res, next) => {

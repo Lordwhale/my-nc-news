@@ -1,4 +1,4 @@
-const { request } = require("../app");
+const { request } = require("../../app");
 const {
   selectArticleById,
   selectArticle,
