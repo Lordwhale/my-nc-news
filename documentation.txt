@@ -35,3 +35,7 @@ Fifth push
         tested for structure, invalid input and out of range input
 
 Sixth push
+     
+    postComment on /api/article/:article_id/comments --
+        working, returning valid response object,
+        tested for structure, invalid, incomplete and out of range inputs 

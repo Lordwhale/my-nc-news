@@ -92,7 +92,6 @@ describe("GET /api/articles", () => {
         expect(articles).toBeSortedBy("created_at", { descending: true });
         expect(articles).toHaveLength(13);
         articles.forEach((article) => {
-          console.log(article)
           expect(article).toMatchObject({
             article_id: expect.any(Number),
             title: expect.any(String),
@@ -101,7 +100,7 @@ describe("GET /api/articles", () => {
             created_at: expect.any(String),
             votes: expect.any(Number),
             article_img_url: expect.any(String),
-            comment_count: expect.any(String)
+            comment_count: expect.any(String),
           });
         });
       });
@@ -145,6 +144,83 @@ describe("GET /api/articles/:article_id/comments", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Bad Request");
+      });
+  });
+});
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("201: responds with a newly created comment object", () => {
+    const newComment = {
+      username: "icellusedkars",
+      body: "I dont know Mitch.",
+    };
+    return request(app)
+      .post("/api/articles/6/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body: { comment } }) => {
+        expect(comment).toEqual({
+          comment_id: expect.any(Number),
+          author: "icellusedkars",
+          body: "I dont know Mitch.",
+          votes: expect.any(Number),
+          created_at: expect.any(String),
+          article_id: 6,
+        });
+      });
+  });
+
+  test("400: responds with an error message if username is missing", () => {
+    return request(app)
+      .post("/api/articles/5/comments")
+      .send({
+        body: "Am I missing something?",
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("missing username");
+      });
+  });
+
+  test("400: responds with an error message if body is missing", () => {
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send({
+        username: "Mr Forgetful",
+      })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("missing content");
+      });
+  });
+
+  test("400: Responds with an error message if empty object passed", () => {
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send({})
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("missing input");
+      });
+  });
+  test("404: Responds with an error message when given an out of range id", () => {
+    return request(app)
+      .get("/api/articles/9000/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("item not found");
+      });
+  });
+  test("404: Responds with an error message when the user does not exist", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        username: "nkotb",
+        body: "When will I be famous?",
+      })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Unknown user");
       });
   });
 });

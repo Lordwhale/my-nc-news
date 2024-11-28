@@ -1,5 +1,5 @@
 const { request } = require("../app");
-const { getCommentsByArticleId } = require("../models/comments.model")
+const { getCommentsByArticleId, postComment } = require("../models/comments.model")
 
 exports.getArticleComments = (req, res, next) => {
     const { article_id } = req.params;
@@ -8,4 +8,16 @@ exports.getArticleComments = (req, res, next) => {
     }).catch((err) => {
         next(err)
     })
-}
+};
+
+exports.postComment = (req, res, next) => {
+    const newComment = req.body
+    const { article_id } = req.params
+    postComment(newComment, article_id)
+      .then((comment) => {
+        res.status(201).send({ comment });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  };
