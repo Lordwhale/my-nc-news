@@ -10,6 +10,7 @@ const {
 const {
   getArticles,
   getArticleById,
+  updateVote
 } = require("./db/controllers/articles.controller");
 
 const {
@@ -26,11 +27,11 @@ app.get("/api/topics", getTopics); // get all topics
 
 app.get("/api/articles", getArticles); // get all articles, desc order, body removed
 
-app.get("/api/articles/:article_id", getArticleById); // get article by id
+app.get("/api/articles/:article_id", getArticleById); // get article by 
+
+app.patch("/api/articles/:article_id", updateVote); // add new value to votes
 
 app.get("/api/articles/:article_id/comments", getArticleComments); // get all comments for given article, newest first
-
-
 
 app.post("/api/articles/:article_id/comments", postComment); // post a comment for an article
 

@@ -194,7 +194,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 
-  test("400: Responds with an error message if empty object passed", () => {
+  test("400: responds with an error message if empty object passed", () => {
     return request(app)
       .post("/api/articles/3/comments")
       .send({})
@@ -203,7 +203,7 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("missing input");
       });
   });
-  test("404: Responds with an error message when given an out of range id", () => {
+  test("404: responds with an error message when given an out of range id", () => {
     return request(app)
       .get("/api/articles/9000/comments")
       .expect(404)
@@ -211,7 +211,7 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("item not found");
       });
   });
-  test("404: Responds with an error message when the user does not exist", () => {
+  test("404: responds with an error message when the user does not exist", () => {
     return request(app)
       .post("/api/articles/1/comments")
       .send({
@@ -222,5 +222,43 @@ describe("POST /api/articles/:article_id/comments", () => {
       .then(({ body }) => {
         expect(body.msg).toBe("Unknown user");
       });
+  });
+
+
+  describe("PATCH /api/articles/:article_id", () => {
+    test("200: responds with an increased vote count from the return object", () => {
+      return request(app)
+        .patch("/api/articles/3")
+        .send({ inc_votes: 10 })
+        .expect(200)
+        .then(({ body: { article } }) => {
+          expect(article.votes).toBe(10);
+        });
+    });
+    test("200: responds with a decreased vote count from the object received", () => {
+      return request(app)
+        .patch("/api/articles/1")
+        .send({ inc_votes: -10 })
+        .expect(200)
+        .then(({ body: { article } }) => {
+          expect(article.votes).toBe(90);
+        });
+    });
+    test("404: responds with an error message when given out of range id", () => {
+      return request(app)
+        .patch("/api/articles/1234")
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("item not found");
+        });
+    });
+    test("400: Responds with an error message when given an invalid id", () => {
+      return request(app)
+        .patch("/api/articles/sputnik-in-space")
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe("Bad Request");
+        });
+    });
   });
 });

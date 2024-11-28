@@ -39,3 +39,9 @@ Sixth push
     postComment on /api/article/:article_id/comments --
         working, returning valid response object,
         tested for structure, invalid, incomplete and out of range inputs 
+
+Seventh push
+
+    updateVote on /api/articles/:article_id --
+        working, returning valid response object,
+        tested for structure, invalid, incomplete and out of range inputs
