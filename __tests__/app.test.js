@@ -203,6 +203,7 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("missing input");
       });
   });
+
   test("404: responds with an error message when given an out of range id", () => {
     return request(app)
       .get("/api/articles/9000/comments")
@@ -211,6 +212,7 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("item not found");
       });
   });
+
   test("404: responds with an error message when the user does not exist", () => {
     return request(app)
       .post("/api/articles/1/comments")
@@ -223,42 +225,82 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("Unknown user");
       });
   });
+});
 
+describe("PATCH /api/articles/:article_id", () => {
+  test("200: responds with an increased vote count from the return object", () => {
+    return request(app)
+      .patch("/api/articles/3")
+      .send({ inc_votes: 10 })
+      .expect(200)
+      .then(({ body: { article } }) => {
+        expect(article.votes).toBe(10);
+      });
+  });
 
-  describe("PATCH /api/articles/:article_id", () => {
-    test("200: responds with an increased vote count from the return object", () => {
-      return request(app)
-        .patch("/api/articles/3")
-        .send({ inc_votes: 10 })
-        .expect(200)
-        .then(({ body: { article } }) => {
-          expect(article.votes).toBe(10);
+  test("200: responds with a decreased vote count from the object received", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: -10 })
+      .expect(200)
+      .then(({ body: { article } }) => {
+        expect(article).toEqual({
+          article_id: 1,
+          article_img_url: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+          created_at: expect.any(String),
+          title: expect.any(String),
+          topic: expect.any(String),
+          votes: 90
         });
-    });
-    test("200: responds with a decreased vote count from the object received", () => {
-      return request(app)
-        .patch("/api/articles/1")
-        .send({ inc_votes: -10 })
-        .expect(200)
-        .then(({ body: { article } }) => {
-          expect(article.votes).toBe(90);
-        });
-    });
-    test("404: responds with an error message when given out of range id", () => {
-      return request(app)
-        .patch("/api/articles/1234")
-        .expect(404)
-        .then(({ body: { msg } }) => {
-          expect(msg).toBe("item not found");
-        });
-    });
-    test("400: Responds with an error message when given an invalid id", () => {
-      return request(app)
-        .patch("/api/articles/sputnik-in-space")
-        .expect(400)
-        .then(({ body: { msg } }) => {
-          expect(msg).toBe("Bad Request");
-        });
-    });
+      });
+  });
+
+  test("404: responds with an error message when given out of range id", () => {
+    return request(app)
+      .patch("/api/articles/1234")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("item not found");
+      });
+  });
+
+  test("400: Responds with an error message when given an invalid id", () => {
+    return request(app)
+      .patch("/api/articles/sputnik-in-space")
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad Request");
+      });
+  });
+});
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("204: removes the selected comment", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then(({ body }) => {
+        expect(body).toEqual({});
+      });
+  });
+
+  test("404: responds with an error message when given an out of range id", () => {
+    return request(app)
+      .delete("/api/comments/1234")
+      .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("comment does not exist");
+      });
+  });
+
+  test("400: responds with an error message when given an invalid id", () => {
+    return request(app)
+      .delete("/api/comments/laijka-in-space")
+      .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad Request");
+      });
   });
 });

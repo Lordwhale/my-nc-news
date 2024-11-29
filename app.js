@@ -5,6 +5,7 @@ const { getTopics } = require("./db/controllers/topics.controller");
 const {
   getArticleComments,
   postComment,
+  deleteComment
 } = require("./db/controllers/comments.controller");
 
 const {
@@ -34,6 +35,8 @@ app.patch("/api/articles/:article_id", updateVote); // add new value to votes
 app.get("/api/articles/:article_id/comments", getArticleComments); // get all comments for given article, newest first
 
 app.post("/api/articles/:article_id/comments", postComment); // post a comment for an article
+
+app.delete("/api/comments/:comment_id", deleteComment); // delete a comment by id
 
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
