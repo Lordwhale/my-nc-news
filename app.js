@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const { getApi } = require("./db/controllers/api.controller");
+const { getUsers } = require("./db/controllers/users.controller");
 const { getTopics } = require("./db/controllers/topics.controller");
 const {
   getArticleComments,
@@ -26,6 +27,8 @@ app.get("/api", getApi); // list all avail APIs
 
 app.get("/api/topics", getTopics); // get all topics
 
+app.get("/api/users", getUsers); // get all users
+
 app.get("/api/articles", getArticles); // get all articles, desc order, body removed
 
 app.get("/api/articles/:article_id", getArticleById); // get article by 
@@ -37,6 +40,7 @@ app.get("/api/articles/:article_id/comments", getArticleComments); // get all co
 app.post("/api/articles/:article_id/comments", postComment); // post a comment for an article
 
 app.delete("/api/comments/:comment_id", deleteComment); // delete a comment by id
+
 
 app.all("*", (req, res) => {
   res.status(404).send({ msg: "Not Found" });
