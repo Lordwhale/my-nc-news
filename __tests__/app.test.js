@@ -252,7 +252,7 @@ describe("PATCH /api/articles/:article_id", () => {
           created_at: expect.any(String),
           title: expect.any(String),
           topic: expect.any(String),
-          votes: 90
+          votes: 90,
         });
       });
   });
@@ -301,6 +301,24 @@ describe("DELETE /api/comments/:comment_id", () => {
       .expect(400)
       .then(({ body: { msg } }) => {
         expect(msg).toBe("Bad Request");
+      });
+  });
+});
+
+describe("GET /api/users", () => {
+  test("200: responds with an array of all users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body: { allUsers } }) => {
+        expect(allUsers).toHaveLength(4);
+        allUsers.forEach((user) => {
+          expect(user).toMatchObject({
+          username: expect.any(String),
+          name: expect.any(String),
+          avatar_url: expect.any(String),
+          });
+        });
       });
   });
 });
