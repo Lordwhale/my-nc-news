@@ -244,14 +244,14 @@ describe("PATCH /api/articles/:article_id", () => {
       .send({ inc_votes: -10 })
       .expect(200)
       .then(({ body: { article } }) => {
-        expect(article).toEqual({
+        expect(article).toMatchObject({
           article_id: 1,
-          article_img_url: expect.any(String),
-          author: expect.any(String),
-          body: expect.any(String),
+          article_img_url: "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+          author: "butter_bridge",
+          body: "I find this existence challenging",
           created_at: expect.any(String),
-          title: expect.any(String),
-          topic: expect.any(String),
+          title: "Living in the shadow of a great man",
+          topic: "mitch",
           votes: 90,
         });
       });

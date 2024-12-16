@@ -15,7 +15,7 @@ exports.postComment = (newComment, article_id) => {
   if (!username && !body) {
     return Promise.reject({ status: 400, msg: "missing input" });
   }
-  if (!username) {
+  if (!username ) {
     return Promise.reject({ status: 400, msg: "missing username" });
   }
   if (!body) {
