@@ -1,6 +1,6 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const cors = require('cors');
 const { getApi } = require("./db/controllers/api.controller");
 const { getUsers } = require("./db/controllers/users.controller");
 const { getTopics } = require("./db/controllers/topics.controller");
